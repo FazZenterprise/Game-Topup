@@ -49,6 +49,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 0;
         }
 
         .logo-container {
@@ -58,7 +59,7 @@
         }
 
         .logo-img {
-            height: 40px;
+            height: 50px; /* Sesuaikan tinggi logo */
             width: auto;
         }
 
@@ -356,14 +357,21 @@
                 flex: 1 1 100%;
             }
         }
+
+        @media (max-width: 768px) {
+            .logo-img {
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container header-content">
             <div class="logo-container">
-                <img src="Zox.png" alt="LapakFazry Logo" class="logo-img">
-                <a href="#" class="logo" id="home-btn">ZoxxStore</a>
+                <a href="#">
+                    <img src="Zox.png" alt="ZOXSTORE Logo" class="logo-img">
+                </a>
             </div>
             <nav>
                 <ul>
