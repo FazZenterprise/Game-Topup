@@ -58,9 +58,15 @@
             gap: 10px;
         }
 
-          .logo-img {
-            height: 50px; /* Sesuaikan tinggi logo */
-            width: auto;
+        .logo-img {
+            width: 80px;       /* Lebar logo */
+            height: 80px;      /* Tinggi logo (sama dengan width untuk 1:1) */
+            object-fit: contain; /* Memastikan gambar tidak terdistorsi */
+            transition: all 0.3s ease; /* Animasi hover opsional */
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05); /* Efek hover kecil */
         }
 
         .logo {
@@ -360,6 +366,14 @@
 
         @media (max-width: 768px) {
             .logo-img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-img {
+                width: 50px;
                 height: 50px;
             }
         }
@@ -370,8 +384,11 @@
         <div class="container header-content">
             <div class="logo-container">
                 <a href="#">
-                    <img src="Zox.png" alt="ZOXSTORE Logo" class="logo-img">
-                </a>
+                <img src="Zox.png" 
+                     alt="ZoxxStore Logo" 
+                     class="logo-img"
+                     style="width: 80px; height: 80px;">
+            </a>
             </div>
             <nav>
                 <ul>
