@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZoxxStore - Top Up & Pembayaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --dark: #1a1a2e;
+            --light: #f1f1f1;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #fd7e14;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .category-tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .product-card-content {
+            padding: 1.5rem;
+        }
+
+        .product-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .product-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            flex: 1 1 calc(33.333% - 1rem);
+            min-width: 120px;
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option input:checked + label {
+            background: var(--primary);
+            color: white;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .order-summary table {
+            width: 100%;
+            margin: 1rem 0;
+            border-collapse: collapse;
+        }
+        
+        .order-summary table tr td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-summary table tr td:first-child {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .order-summary table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .instructions {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .instructions ol {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .large-logo {
+            display: block;
+            margin: 0 auto;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 2rem;
+        }
+
+        .id-fields {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+            }
+
+            nav ul li {
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+
+            .radio-option {
+                flex: 1 1 calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .radio-option {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container header-content">
+            <div class="logo-container">
+                <a href="#" class="logo" id="home-btn">ZoxxStore</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="nav-home">Home</a></li>
+                    <li><a href="#" id="nav-order">Pesanan</a></li>
+                    <li><a href="https://wa.me/6285892971228" target="_blank">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Section -->
+        <section id="home-section" class="section">
+            <h2 class="section-title">Layanan Top Up & Pembayaran</h2>
+            
+            <div class="category-tabs">
+                <div class="category-tab active" data-category="game">Game</div>
+                <div class="category-tab" data-category="pulsa">Pulsa</div>
+                <div class="category-tab" data-category="data">Paket Data</div>
+                <div class="category-tab" data-category="emoney">E-Wallet</div>
+            </div>
+            
+            <!-- Game Products -->
+            <div id="game-products" class="products-container">
+                <div class="products-grid">
+                    <div class="product-card" data-product="freefire">
+                        <img src="FreeFire.jpg" alt="Free Fire">
+                        <div class="product-card-content">
+                            <h3>Free Fire</h3>
+                            <p>Top up Diamond dengan harga termurah</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="mlbb">
+                        <img src="ML.jpg" alt="Mobile Legends">
+                        <div class="product-card-content">
+                            <h3>Mobile Legends</h3>
+                            <p>Top up Diamond dengan harga termurah</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="pubg">
+                        <img src="Pubg.jpg" alt="PUBG Mobile">
+                        <div class="product-card-content">
+                            <h3>PUBG Mobile</h3>
+                            <p>Top up UC dengan harga termurah</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="valorant">
+                        <img src="Valorant.jpg" alt="Valorant">
+                        <div class="product-card-content">
+                            <h3>Valorant</h3>
+                            <p>Top up Points dengan harga termurah</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="codm">
+                        <img src="Codm.jpg" alt="Call of Duty Mobile">
+                        <div class="product-card-content">
+                            <h3>Call of Duty Mobile</h3>
+                            <p>Top up CP dengan harga termurah</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pulsa Products -->
+            <div id="pulsa-products" class="products-container hidden">
+                <div class="products-grid">
+                    <div class="product-card" data-product="telkomsel">
+                        <img src="Telkomsel.jpg" alt="Telkomsel">
+                        <div class="product-card-content">
+                            <h3>Telkomsel</h3>
+                            <p>Pulsa Telkomsel</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="xl">
+                        <img src="Xl.jpg" alt="XL">
+                        <div class="product-card-content">
+                            <h3>XL</h3>
+                            <p>Pulsa XL</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="indosat">
+                        <img src="Indosat.jpg" alt="Indosat">
+                        <div class="product-card-content">
+                            <h3>Indosat</h3>
+                            <p>Pulsa Indosat</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="three">
+                        <img src="Three.jpg" alt="Three">
+                        <div class="product-card-content">
+                            <h3>Three</h3>
+                            <p>Pulsa Three</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="byu">
+                        <img src="Byu.jpg" alt="by.U">
+                        <div class="product-card-content">
+                            <h3>by.U</h3>
+                            <p>Pulsa by.U</p>
+                            <div class="product-price">Mulai Rp 5.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="smartfren">
+                        <img src="Smartfren.jpg" alt="Smartfren">
+                        <div class="product-card-content">
+                            <h3>Smartfren</h3>
+                            <p>Pulsa Smartfren</p>
+                            <div class="product-price">Mulai Rp 5.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="axis">
+                        <img src="Axis.jpg" alt="Axis">
+                        <div class="product-card-content">
+                            <h3>Axis</h3>
+                            <p>Pulsa Axis</p>
+                            <div class="product-price">Mulai Rp 5.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paket Data Products -->
+            <div id="data-products" class="products-container hidden">
+                <div class="products-grid">
+                    <div class="product-card" data-product="telkomsel-data">
+                        <img src="Telkomsel.jpg" alt="Telkomsel">
+                        <div class="product-card-content">
+                            <h3>Telkomsel Data</h3>
+                            <p>Paket data telkomsel</p>
+                            <div class="product-price">Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="xl-data">
+                        <img src="Xl.jpg" alt="XL">
+                        <div class="product-card-content">
+                            <h3>XL Data</h3>
+                            <p>Paket data xl</p>
+                            <div class="product-price">Rp 30.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="indosat-data">
+                        <img src="Indosat.jpg" alt="Indosat">
+                        <div class="product-card-content">
+                            <h3>Indosat Data</h3>
+                            <p>Paket data indosat</p>
+                            <div class="product-price">Rp 75.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="three-data">
+                        <img src="Three.jpg" alt="Three">
+                        <div class="product-card-content">
+                            <h3>Three Data</h3>
+                            <p>Paket data three</p>
+                            <div class="product-price">Rp 45.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="byu-data">
+                        <img src="Byu.jpg" alt="by.U">
+                        <div class="product-card-content">
+                            <h3>by.U Data</h3>
+                            <p>Paket data by.U</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="smartfren-data">
+                        <img src="Smartfren.jpg" alt="Smartfren">
+                        <div class="product-card-content">
+                            <h3>Smartfren Data</h3>
+                            <p>Paket data Smartfren</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="axis-data">
+                        <img src="Axis.jpg" alt="Axis">
+                        <div class="product-card-content">
+                            <h3>Axis Data</h3>
+                            <p>Paket data Axis</p>
+                            <div class="product-price">Mulai Rp 15.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- e-Money Products -->
+            <div id="emoney-products" class="products-container hidden">
+                <div class="products-grid">
+                    <div class="product-card" data-product="dana">
+                        <img src="Dana16.jpg" alt="DANA">
+                        <div class="product-card-content">
+                            <h3>DANA</h3>
+                            <p>Isi saldo DANA</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="ovo">
+                        <img src="Ovo16.jpg" alt="OVO">
+                        <div class="product-card-content">
+                            <h3>OVO</h3>
+                            <p>Isi saldo OVO</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="gopay">
+                        <img src="Gopay16.jpg" alt="GOPAY">
+                        <div class="product-card-content">
+                            <h3>GOPAY</h3>
+                            <p>Isi saldo GOPAY</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                    <div class="product-card" data-product="shopeepay">
+                        <img src="Shopeepay16.jpg" alt="ShopeePay">
+                        <div class="product-card-content">
+                            <h3>ShopeePay</h3>
+                            <p>Isi saldo ShopeePay</p>
+                            <div class="product-price">Mulai Rp 10.000</div>
+                            <button class="btn btn-primary btn-pilih">Pilih</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Form Section -->
+        <section id="order-section" class="section hidden">
+            <div class="form-container">
+                <h2 id="product-title" class="section-title">Free Fire Diamond</h2>
+                
+                <!-- Formulir untuk Mobile Legends -->
+                <div id="mlbb-form" class="id-fields">
+                    <div class="form-group">
+                        <label for="mlbb-user-id">ID Pengguna</label>
+                        <input type="text" id="mlbb-user-id" class="form-control" placeholder="Masukkan ID Pengguna" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mlbb-zone-id">ID Zone</label>
+                        <input type="text" id="mlbb-zone-id" class="form-control" placeholder="Masukkan ID Zone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mlbb-customer-name">Nama Pelanggan</label>
+                        <input type="text" id="mlbb-customer-name" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                </div>
+                
+                <!-- Formulir untuk Free Fire -->
+                <div id="freefire-form" class="id-fields">
+                    <div class="form-group">
+                        <label for="freefire-game-id">ID Game</label>
+                        <input type="text" id="freefire-game-id" class="form-control" placeholder="Masukkan ID Game" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="freefire-customer-name">Nama Pelanggan</label>
+                        <input type="text" id="freefire-customer-name" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                </div>
+                
+                <!-- Formulir untuk game lainnya -->
+                <div id="other-game-form" class="id-fields">
+                    <div class="form-group">
+                        <label for="game-id">ID Game</label>
+                        <input type="text" id="game-id" class="form-control" placeholder="Masukkan ID Game" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="game-customer-name">Nama Pelanggan</label>
+                        <input type="text" id="game-customer-name" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                </div>
+                
+                <!-- Formulir untuk pulsa -->
+                <div id="pulsa-form" class="id-fields">
+                    <div class="form-group">
+                        <label for="phone-number">Nomor HP</label>
+                        <input type="text" id="phone-number" class="form-control" placeholder="Masukkan Nomor HP" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pulsa-customer-name">Nama Pengguna</label>
+                        <input type="text" id="pulsa-customer-name" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                </div>
+                
+                <!-- Formulir untuk e-wallet -->
+                <div id="emoney-form" class="id-fields">
+                    <div class="form-group">
+                        <label for="emoney-number">Nomor E-Wallet</label>
+                        <input type="text" id="emoney-number" class="form-control" placeholder="Masukkan Nomor E-Wallet" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emoney-customer-name">Nama Pengguna</label>
+                        <input type="text" id="emoney-customer-name" class="form-control" placeholder="Masukkan nama Anda" required>
+                    </div>
+                </div>
+                
+                <form id="order-form">
+                    <div class="form-group">
+                        <label>Pilih Nominal</label>
+                        <div class="radio-group" id="product-options">
+                            <!-- Diisi oleh JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Metode Pembayaran</label>
+                        <div class="radio-group" id="payment-options">
+                            <div class="radio-option">
+                                <input type="radio" name="payment" id="dana" value="DANA" required>
+                                <label for="dana">
+                                    <div class="payment-method">
+                                        <img src="Dana.png" alt="DANA" class="payment-icon">
+                                        DANA
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="payment" id="cash" value="CASH" required>
+                                <label for="cash">
+                                    <div class="payment-method">
+                                        <img src="Cash.png" alt="CASH" class="payment-icon">
+                                        Cash
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="payment" id="gopay" value="GOPAY" required>
+                                <label for="gopay">
+                                    <div class="payment-method">
+                                        <img src="Gopay.png" alt="GOPAY" class="payment-icon">
+                                        GOPAY
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="payment" id="bank-transfer" value="Bank Transfer" required>
+                                <label for="bank-transfer">
+                                    <div class="payment-method">
+                                        <i class="fas fa-university payment-icon"></i>
+                                        Bank Transfer
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Lanjutkan Pembayaran</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Order History Section -->
+        <section id="order-history-section" class="section hidden">
+            <h2 class="section-title">Riwayat Pesanan</h2>
+            <div class="form-container">
+                <p>Untuk melihat riwayat pesanan, silakan hubungi kami via WhatsApp dengan menyebutkan nomor HP atau ID Game yang digunakan saat order.</p>
+                <a href="https://wa.me/6285892971228" class="btn btn-primary" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Hubungi WhatsApp
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ZoxxStore. All rights reserved.</p>
+            <p>Hubungi kami: <a href="https://wa.me/6285892971228" style="color: white;">WhatsApp</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = {
+            // Game products
+            freefire: {
+                name: "Free Fire Diamond",
+                type: "game",
+                formType: "freefire",
+                items: [
+                    { name: "Battle Pass", amount: "BP", price: 40000 },
+                    { name: "Membership Bulanan", amount: "MembershipBulanan", price: 79500 },
+                    { name: "Membership Mingguan", amount: "MembershipMingguan", price: 26500 },
+                    { name: "30 Diamond", amount: 30, price: 5000 },
+                    { name: "75 Diamond", amount: 75, price: 10000 },
+                    { name: "100 Diamond", amount: 100, price: 13000 },
+                    { name: "130 Diamond", amount: 130, price: 17000 },
+                    { name: "140 Diamond", amount: 140, price: 18000 },
+                    { name: "145 Diamond", amount: 145, price: 18500 },
+                    { name: "150 Diamond", amount: 150, price: 20000 },
+                    { name: "170 Diamond", amount: 170, price: 22500 },
+                    { name: "190 Diamond", amount: 190, price: 25000 },
+                    { name: "210 Diamond", amount: 210, price: 27000 },
+                    { name: "280 Diamond", amount: 280, price: 36000 },
+                    { name: "300 Diamond", amount: 300, price: 40000 },
+                    { name: "360 Diamond", amount: 360, price: 45500 },
+                    { name: "375 Diamond", amount: 375, price: 48000 },
+                    { name: "405 Diamond", amount: 405, price: 50500 },
+                    { name: "475 Diamond", amount: 475, price: 60000 },
+                    { name: "500 Diamond", amount: 500, price: 63000 },
+                    { name: "515 Diamond", amount: 515, price: 65000 },
+                    { name: "565 Diamond", amount: 565, price: 70500 },
+                    { name: "600 Diamond", amount: 600, price: 75000 },
+                    { name: "635 Diamond", amount: 635, price: 78500 },
+                    { name: "645 Diamond", amount: 645, price: 82000 },
+                    { name: "655 Diamond", amount: 655, price: 84000 },
+                    { name: "710 Diamond", amount: 710, price: 87500 },
+                    { name: "720 Diamond", amount: 720, price: 88000 },
+                    { name: "740 Diamond", amount: 740, price: 92500 },
+                    { name: "770 Diamond", amount: 770, price: 95000 },
+                    { name: "800 Diamond", amount: 800, price: 100000 },
+                    { name: "860 Diamond", amount: 860, price: 105000 },
+                    { name: "930 Diamond", amount: 930, price: 115000 },
+                    { name: "1000 Diamond", amount: 1000, price: 125000 }
+                ]
+            },
+            mlbb: {
+                name: "Mobile Legends Diamond",
+                type: "game",
+                formType: "mlbb",
+                items: [
+                    { name: "Weekly Diamond Pass", amount: "Weekly Diamond Pass", price: 27000 },
+                    { name: "18 Diamond", amount: 18, price: 5000 },
+                    { name: "30 Diamond", amount: 30, price: 8500 },
+                    { name: "36 Diamond", amount: 36, price: 10000 },
+                    { name: "46 Diamond", amount: 46, price: 13000 },
+                    { name: "50 Diamond", amount: 50, price: 14000 },
+                    { name: "56 Diamond", amount: 56, price: 15000 },
+                    { name: "59 Diamond", amount: 59, price: 15500 },
+                    { name: "64 Diamond", amount: 64, price: 17000 },
+                    { name: "74 Diamond", amount: 74, price: 19500 },
+                    { name: "80 Diamond", amount: 80, price: 21500 },
+                    { name: "85 Diamond", amount: 85, price: 22500 },
+                    { name: "100 Diamond", amount: 100, price: 27000 },
+                    { name: "110 Diamond", amount: 110, price: 30000 },
+                    { name: "129 Diamond", amount: 129, price: 34500 },
+                    { name: "148 Diamond", amount: 148, price: 40000 },
+                    { name: "172 Diamond", amount: 172, price: 46000 },
+                    { name: "176 Diamond", amount: 176, price: 48000 },
+                    { name: "222 Diamond", amount: 222, price: 58500 },
+                    { name: "240 Diamond", amount: 240, price: 75000 },
+                    { name: "300 Diamond", amount: 300, price: 80000 },
+                    { name: "344 Diamond", amount: 344, price: 91500 },
+                    { name: "370 Diamond", amount: 370, price: 97500 },
+                    { name: "408 Diamond", amount: 408, price: 107500 },
+                    { name: "429 Diamond", amount: 429, price: 113500 },
+                    { name: "518 Diamond", amount: 518, price: 137000 },
+                    { name: "568 Diamond", amount: 568, price: 150000 },
+                    { name: "600 Diamond", amount: 600, price: 160000 },
+                    { name: "659 Diamond", amount: 659, price: 173000 },
+                    { name: "750 Diamond", amount: 750, price: 195500 },
+                    { name: "878 Diamond", amount: 878, price: 240000 },
+                    { name: "966 Diamond", amount: 966, price: 250000 },
+                    { name: "1045 Diamond", amount: 1045, price: 270000 },
+                    { name: "1050 Diamond", amount: 1050, price: 275000 },
+                    { name: "1136 Diamond", amount: 1136, price: 300000 },
+                    { name: "1358 Diamond", amount: 1358, price: 353000 },
+                    { name: "1412 Diamond", amount: 1412, price: 367000 },
+                    { name: "1506 Diamond", amount: 1506, price: 400000 }
+                ]
+            },
+            pubg: {
+                name: "PUBG Mobile UC",
+                type: "game",
+                formType: "other",
+                items: [
+                    { name: "50 UC", amount: 50, price: 10000 },
+                    { name: "100 UC", amount: 100, price: 18000 },
+                    { name: "200 UC", amount: 200, price: 35000 },
+                    { name: "500 UC", amount: 500, price: 80000 }
+                ]
+            },
+            valorant: {
+                name: "Valorant Points",
+                type: "game",
+                formType: "other",
+                items: [
+                    { name: "100 Points", amount: 100, price: 15000 },
+                    { name: "125 Points", amount: 125, price: 20000 },
+                    { name: "250 Points", amount: 250, price: 35000 },
+                    { name: "500 Points", amount: 500, price: 65000 }
+                ]
+            },
+            codm: {
+                name: "Call of Duty Mobile CP",
+                type: "game",
+                formType: "other",
+                items: [
+                    { name: "40 CP", amount: 40, price: 10000 },
+                    { name: "80 CP", amount: 80, price: 20000 },
+                    { name: "160 CP", amount: 160, price: 40000 },
+                    { name: "400 CP", amount: 400, price: 100000 }
+                ]
+            },
+            
+            // Pulsa products
+            telkomsel: {
+                name: "Pulsa Telkomsel",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "20.000", amount: 20000, price: 21000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            xl: {
+                name: "Pulsa XL",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "25.000", amount: 25000, price: 26000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            indosat: {
+                name: "Pulsa Indosat",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "25.000", amount: 25000, price: 26000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            three: {
+                name: "Pulsa Three",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "20.000", amount: 20000, price: 21000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            byu: {
+                name: "Pulsa by.U",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "25.000", amount: 25000, price: 26000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            smartfren: {
+                name: "Pulsa Smartfren",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "20.000", amount: 20000, price: 21000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            axis: {
+                name: "Pulsa Axis",
+                type: "pulsa",
+                formType: "pulsa",
+                items: [
+                    { name: "5.000", amount: 5000, price: 6000 },
+                    { name: "10.000", amount: 10000, price: 11000 },
+                    { name: "25.000", amount: 25000, price: 26000 },
+                    { name: "50.000", amount: 50000, price: 51000 }
+                ]
+            },
+            
+            // Paket Data products
+            "telkomsel-data": {
+                name: "Paket Data Telkomsel",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "xl-data": {
+                name: "Paket Data XL",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "indosat-data": {
+                name: "Paket Data Indosat",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "three-data": {
+                name: "Paket Data Three",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "byu-data": {
+                name: "Paket Data by.U",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "smartfren-data": {
+                name: "Paket Data Smartfren",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            "axis-data": {
+                name: "Paket Data Axis",
+                type: "data",
+                formType: "pulsa",
+                items: [
+                    { name: "1GB 7 Hari", amount: "1GB", price: 15000 },
+                    { name: "3GB 30 Hari", amount: "3GB", price: 30000 },
+                    { name: "10GB 30 Hari", amount: "10GB", price: 75000 }
+                ]
+            },
+            
+            // E-Wallet products
+            dana: {
+                name: "DANA",
+                type: "emoney",
+                formType: "emoney",
+                items: [
+                    { name: "10.000", amount: 10000, price: 10500 },
+                    { name: "20.000", amount: 20000, price: 20500 },
+                    { name: "50.000", amount: 50000, price: 50500 },
+                    { name: "100.000", amount: 100000, price: 100500 }
+                ]
+            },
+            ovo: {
+                name: "OVO",
+                type: "emoney",
+                formType: "emoney",
+                items: [
+                    { name: "10.000", amount: 10000, price: 10500 },
+                    { name: "20.000", amount: 20000, price: 20500 },
+                    { name: "50.000", amount: 50000, price: 50500 },
+                    { name: "100.000", amount: 100000, price: 100500 }
+                ]
+            },
+            gopay: {
+                name: "GOPAY",
+                type: "emoney",
+                formType: "emoney",
+                items: [
+                    { name: "10.000", amount: 10000, price: 10500 },
+                    { name: "20.000", amount: 20000, price: 20500 },
+                    { name: "50.000", amount: 50000, price: 50500 },
+                    { name: "100.000", amount: 100000, price: 100500 }
+                ]
+            },
+            shopeepay: {
+                name: "ShopeePay",
+                type: "emoney",
+                formType: "emoney",
+                items: [
+                    { name: "10.000", amount: 10000, price: 10500 },
+                    { name: "20.000", amount: 20000, price: 20500 },
+                    { name: "50.000", amount: 50000, price: 50500 },
+                    { name: "100.000", amount: 100000, price: 100500 }
+                ]
+            }
+        };
+
+        // DOM elements
+        const homeSection = document.getElementById('home-section');
+        const orderSection = document.getElementById('order-section');
+        const orderHistorySection = document.getElementById('order-history-section');
+        const homeBtn = document.getElementById('home-btn');
+        const navHome = document.getElementById('nav-home');
+        const navOrder = document.getElementById('nav-order');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const productsContainers = document.querySelectorAll('.products-container');
+        const productTitle = document.getElementById('product-title');
+        const productOptions = document.getElementById('product-options');
+        const orderForm = document.getElementById('order-form');
+        
+        // ID form elements
+        const mlbbForm = document.getElementById('mlbb-form');
+        const freefireForm = document.getElementById('freefire-form');
+        const otherGameForm = document.getElementById('other-game-form');
+        const pulsaForm = document.getElementById('pulsa-form');
+        const emoneyForm = document.getElementById('emoney-form');
+        
+        // Current selected product
+        let currentProduct = null;
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            hideAllForms();
+            showHome();
+            
+            // Navigation
+            homeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showHome();
+            });
+            
+            navHome.addEventListener('click', function(e) {
+                e.preventDefault();
+                showHome();
+            });
+            
+            navOrder.addEventListener('click', function(e) {
+                e.preventDefault();
+                showOrderHistory();
+            });
+
+            // Category tabs
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all products containers
+                    productsContainers.forEach(container => {
+                        container.classList.add('hidden');
+                    });
+                    
+                    // Show selected category
+                    const category = this.dataset.category;
+                    document.getElementById(`${category}-products`).classList.remove('hidden');
+                });
+            });
+
+            // Product selection
+            document.querySelectorAll('.btn-pilih').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productCard = this.closest('.product-card');
+                    const productId = productCard.dataset.product;
+                    currentProduct = products[productId];
+                    
+                    // Update product title
+                    productTitle.textContent = currentProduct.name;
+                    
+                    // Show the correct form fields
+                    hideAllForms();
+                    switch(currentProduct.formType) {
+                        case 'mlbb':
+                            mlbbForm.style.display = 'block';
+                            break;
+                        case 'freefire':
+                            freefireForm.style.display = 'block';
+                            break;
+                        case 'pulsa':
+                            pulsaForm.style.display = 'block';
+                            break;
+                        case 'emoney':
+                            emoneyForm.style.display = 'block';
+                            break;
+                        default:
+                            otherGameForm.style.display = 'block';
+                    }
+                    
+                    // Populate product options
+                    productOptions.innerHTML = '';
+                    currentProduct.items.forEach(item => {
+                        const option = document.createElement('div');
+                        option.className = 'radio-option';
+                        option.innerHTML = `
+                            <input type="radio" name="product-option" id="${item.amount}" value="${item.amount}" required>
+                            <label for="${item.amount}">
+                                ${item.name}
+                                <div class="product-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+                            </label>
+                        `;
+                        productOptions.appendChild(option);
+                    });
+                    
+                    // Show order section
+                    showOrderSection();
+                });
+            });
+
+            // Order form submission
+            orderForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const selectedOption = document.querySelector('input[name="product-option"]:checked');
+                const selectedPayment = document.querySelector('input[name="payment"]:checked');
+                
+                if (!selectedOption || !selectedPayment) {
+                    alert('Silakan pilih nominal dan metode pembayaran');
+                    return;
+                }
+                
+                // Find the selected product item
+                const selectedItem = currentProduct.items.find(item => 
+                    item.amount.toString() === selectedOption.value || 
+                    item.name === selectedOption.value
+                );
+                
+                // Get user data based on product type
+                let userData = {};
+                switch(currentProduct.formType) {
+                    case 'mlbb':
+                        userData = {
+                            userId: document.getElementById('mlbb-user-id').value,
+                            zoneId: document.getElementById('mlbb-zone-id').value,
+                            customerName: document.getElementById('mlbb-customer-name').value
+                        };
+                        break;
+                    case 'freefire':
+                        userData = {
+                            gameId: document.getElementById('freefire-game-id').value,
+                            customerName: document.getElementById('freefire-customer-name').value
+                        };
+                        break;
+                    case 'pulsa':
+                        userData = {
+                            phoneNumber: document.getElementById('phone-number').value,
+                            customerName: document.getElementById('pulsa-customer-name').value
+                        };
+                        break;
+                    case 'emoney':
+                        userData = {
+                            emoneyNumber: document.getElementById('emoney-number').value,
+                            customerName: document.getElementById('emoney-customer-name').value
+                        };
+                        break;
+                    default:
+                        userData = {
+                            gameId: document.getElementById('game-id').value,
+                            customerName: document.getElementById('game-customer-name').value
+                        };
+                }
+                
+                // Prepare WhatsApp message
+                let whatsappMessage = `Halo, saya ingin memesan:\n\n`;
+                whatsappMessage += `*Produk:* ${currentProduct.name}\n`;
+                whatsappMessage += `*Nominal:* ${selectedOption.labels[0].textContent.trim()}\n`;
+                whatsappMessage += `*Harga:* Rp ${selectedItem.price.toLocaleString('id-ID')}\n`;
+                whatsappMessage += `*Metode Pembayaran:* ${selectedPayment.labels[0].textContent.trim()}\n\n`;
+                
+                // Add user data based on product type
+                switch(currentProduct.formType) {
+                    case 'mlbb':
+                        whatsappMessage += `*ID Pengguna:* ${userData.userId}\n`;
+                        whatsappMessage += `*ID Zone:* ${userData.zoneId}\n`;
+                        whatsappMessage += `*Nama Pelanggan:* ${userData.customerName}\n`;
+                        break;
+                    case 'freefire':
+                        whatsappMessage += `*ID Game:* ${userData.gameId}\n`;
+                        whatsappMessage += `*Nama Pelanggan:* ${userData.customerName}\n`;
+                        break;
+                    case 'pulsa':
+                        whatsappMessage += `*Nomor HP:* ${userData.phoneNumber}\n`;
+                        whatsappMessage += `*Nama Pengguna:* ${userData.customerName}\n`;
+                        break;
+                    case 'emoney':
+                        whatsappMessage += `*Nomor E-Wallet:* ${userData.emoneyNumber}\n`;
+                        whatsappMessage += `*Nama Pengguna:* ${userData.customerName}\n`;
+                        break;
+                    default:
+                        whatsappMessage += `*ID Game:* ${userData.gameId}\n`;
+                        whatsappMessage += `*Nama Pelanggan:* ${userData.customerName}\n`;
+                }
+                
+                // Encode message for WhatsApp URL
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                const whatsappUrl = `https://wa.me/6285892971228?text=${encodedMessage}`;
+                
+                // Open WhatsApp
+                window.open(whatsappUrl, '_blank');
+                
+                // Reset form
+                this.reset();
+                showHome();
+            });
+        });
+
+        // Helper functions
+        function hideAllForms() {
+            mlbbForm.style.display = 'none';
+            freefireForm.style.display = 'none';
+            otherGameForm.style.display = 'none';
+            pulsaForm.style.display = 'none';
+            emoneyForm.style.display = 'none';
+        }
+
+        function showHome() {
+            homeSection.classList.remove('hidden');
+            orderSection.classList.add('hidden');
+            orderHistorySection.classList.add('hidden');
+        }
+
+        function showOrderSection() {
+            homeSection.classList.add('hidden');
+            orderSection.classList.remove('hidden');
+            orderHistorySection.classList.add('hidden');
+        }
+
+        function showOrderHistory() {
+            homeSection.classList.add('hidden');
+            orderSection.classList.add('hidden');
+            orderHistorySection.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
