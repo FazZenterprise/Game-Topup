@@ -1466,7 +1466,7 @@
 
             // Order form submission
             orderForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+    e.preventDefault();
                 
                 // Check if product has no items (coming soon)
                 if (currentProduct.items.length === 0) {
@@ -1526,11 +1526,19 @@
                 }
                 
                 // Prepare WhatsApp message
-                let whatsappMessage = `Halo, saya ingin memesan:\n\n`;
-                whatsappMessage += `*Produk:* ${currentProduct.name}\n`;
-                whatsappMessage += `*Nominal:* ${selectedOption.labels[0].textContent.trim()}\n`;
-                whatsappMessage += `*Harga:* Rp ${selectedItem.price.toLocaleString('id-ID')}\n`;
-                whatsappMessage += `*Metode Pembayaran:* ${selectedPayment.labels[0].textContent.trim()}\n\n`;
+                let whatsappMessage = `Halo Admin ZoxxStore,\n\n`;
+    whatsappMessage += `Saya ingin memesan produk berikut:\n\n`;
+    whatsappMessage += `📌 *Detail Produk*\n`;
+    
+    // Ambil hanya nama produk tanpa harga
+    const productName = selectedOption.labels[0].textContent.trim()
+                         .replace(/Rp\s*\d+[\.,]\d+/g, '') // Hapus format harga apapun
+                         .trim();
+    
+    whatsappMessage += `▸ Produk: ${currentProduct.name}\n`;
+    whatsappMessage += `▸ Nominal: ${productName}\n`; // Sekarang hanya menampilkan nama tanpa harga
+    whatsappMessage += `▸ Harga: Rp ${selectedItem.price.toLocaleString('id-ID')}\n`;
+    whatsappMessage += `▸ Metode Pembayaran: ${selectedPayment.labels[0].textContent.trim()}\n\n`;
                 
                 // Add user data based on product type
                 switch(currentProduct.formType) {
@@ -1558,15 +1566,16 @@
                 
                 // Encode message for WhatsApp URL
                 const encodedMessage = encodeURIComponent(whatsappMessage);
-                const whatsappUrl = `https://wa.me/6285892971228?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/6285892971228?text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
                 
                 // Open WhatsApp
                 window.open(whatsappUrl, '_blank');
                 
                 // Reset form
                 this.reset();
-                showHome();
-            });
+    showHome();
+});
         }
 
         // Helper functions
